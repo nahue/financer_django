@@ -401,3 +401,5 @@ poetry.toml
 pyrightconfig.json
 
 # End of https://www.toptal.com/developers/gitignore/api/node,python,django
+static/CACHE
+static/src/output.css
