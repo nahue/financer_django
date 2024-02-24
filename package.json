@@ -1,0 +1,13 @@
+{
+  "scripts": {
+    "dev": "concurrently \"npm run dev:css\" \"python manage.py runserver 0.0.0.0:9000\" ",
+    "dev:css": "npx tailwindcss -i ./static/src/input.css -o ./static/src/output.css -w",
+    "dev:install": "python3 -m venv env; source env/bin/activate; pip install -r requirements.txt"
+  },
+  "devDependencies": {
+    "@tailwindcss/forms": "^0.5.7",
+    "@tailwindcss/typography": "^0.5.10",
+    "concurrently": "^7.2.1",
+    "tailwindcss": "^3.4.1"
+  }
+}

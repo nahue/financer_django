@@ -1,0 +1,5 @@
+Django
+django-htmx==1.17.2
+django-extensions==3.2.3
+django-compressor
+django-money
