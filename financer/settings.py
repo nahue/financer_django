@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -23,9 +24,22 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-dlp+s9paswn38*)e3hvm(mqh1!4%fbn^18+7v5@xu1so+w&d7d'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+APP_NAME = os.environ.get("FLY_APP_NAME")
+ALLOWED_HOSTS = [
+    "localhost",
+    f"{APP_NAME}.fly.dev"
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    f"https://{APP_NAME}.fly.dev"
+]
+
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:8000',
+    f"https://{APP_NAME}.fly.dev"
+]
 
 
 # Application definition

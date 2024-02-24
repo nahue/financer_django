@@ -1,3 +1,24 @@
 [tool.pyright]
 venvPath = "."
-venv = "venv"
+venv = ".venv"
+
+[tool.poetry]
+name = "financer_django"
+version = "0.1.0"
+description = ""
+authors = ["Nahuel Chaves <nahuel.chaves@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+Django = "^5.0.2"
+django-htmx = "1.17.2"
+django-extensions = "^3.2.3"
+django-compressor = "^4.4"
+django-money = "^3.4.1"
+gunicorn = "^21.2.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
