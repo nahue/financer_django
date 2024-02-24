@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-dlp+s9paswn38*)e3hvm(mqh1!4%fbn^18+7v5@xu1so+w&d7d'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = os.environ.get('DEBUG', False)
 
 APP_NAME = os.environ.get("FLY_APP_NAME")
 ALLOWED_HOSTS = [
@@ -33,11 +33,13 @@ ALLOWED_HOSTS = [
 ]
 
 CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:9080',
     f"https://{APP_NAME}.fly.dev"
 ]
 
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:8000',
+    'http://localhost:9080',
     f"https://{APP_NAME}.fly.dev"
 ]
 

@@ -1,0 +1,30 @@
+version: "3.9"
+
+services:
+  web:
+    build: .
+    restart: always
+    # command: gunicorn config.wsgi:application --bind 0.0.0.0:8000
+    environment:
+      DEBUG: true
+    expose:
+      - 8000
+    volumes:
+      - static_volume:/code/static
+      - media_volume:/code/media
+
+  nginx:
+    build: ./nginx
+    restart: always
+    ports:
+      - 9080:80
+    volumes:
+      - static_volume:/code/staticfiles
+      - media_volume:/code/mediafiles
+    depends_on:
+      - web
+
+volumes:
+  # postgres_data:
+  static_volume:
+  media_volume:
