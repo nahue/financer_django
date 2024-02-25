@@ -1,27 +1,29 @@
-from django.shortcuts import render
-from django.views.generic import CreateView, ListView, DetailView
+from django.shortcuts import render, reverse
+from django.views.generic import CreateView, ListView, DetailView, UpdateView, View
 from django.contrib.messages.views import SuccessMessageMixin
 from django import forms
 from .models import Account
 
 
-class ListAccounts(ListView):
-    model = Account
-
+class HtmxMixin(View):
     def get_context_data(self, **kwargs):
-        # Call the base implementation first to get a context
-        context = super().get_context_data(**kwargs)
+        ctx = super(HtmxMixin, self).get_context_data(**kwargs)
         if self.request.htmx:
             base_template = "_partial.html"
             message = "Hello from Server + HTMX"
         else:
             base_template = "_base.html"
             message = "Hello from Server"
-        context["base_template"] = base_template
-        context["message"] = message
-        return context
+        ctx["base_template"] = base_template
+        ctx["message"] = message
+        return ctx
 
-class CreateAccount(SuccessMessageMixin, CreateView):
+
+class ListAccounts(HtmxMixin, ListView):
+    model = Account
+
+
+class CreateAccount(HtmxMixin, SuccessMessageMixin, CreateView):
     model = Account
     form = Account
 
@@ -29,19 +31,13 @@ class CreateAccount(SuccessMessageMixin, CreateView):
     success_url = "/accounts"
     success_message = 'Cuenta creada correctamente'
 
-    def get_context_data(self, **kwargs):
-        # Call the base implementation first to get a context
-        context = super().get_context_data(**kwargs)
-        if self.request.htmx:
-            base_template = "_partial.html"
-            message = "Hello from Server + HTMX"
-        else:
-            base_template = "_base.html"
-            message = "Hello from Server"
-        context["base_template"] = base_template
-        context["message"] = message
 
-        return context
+class UpdateAccount(HtmxMixin, UpdateView):
+    model = Account
+    form = Account
+
+    fields = "__all__"
+    success_url = "/accounts"
 
 
 def index(request):
