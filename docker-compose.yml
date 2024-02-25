@@ -14,7 +14,7 @@ services:
       - media_volume:/code/media
 
   nginx:
-    build: ./nginx
+    build: ./docker/nginx
     restart: always
     ports:
       - 9080:80

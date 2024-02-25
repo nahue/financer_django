@@ -25,8 +25,8 @@ COPY . /code
 
 RUN npx tailwindcss -i ./static/src/input.css -o ./static/src/output.css -w
 
-RUN python manage.py migrate && python manage.py collectstatic --noinput
+RUN python manage.py collectstatic --noinput
 
 EXPOSE 8000
 
-CMD ["gunicorn", "--bind", ":8000", "--workers", "2", "financer.wsgi"]
+CMD ["sh", "docker/entrypoint.sh"]
