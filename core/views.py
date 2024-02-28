@@ -33,8 +33,9 @@ class CreateAccount(AccountBaseView, SuccessMessageMixin, CreateView):
 class UpdateAccount(AccountBaseView, SuccessMessageMixin, UpdateView):
     success_message = "%(name)s was updated successfully"
 
-class DeleteAccount(AccountBaseView, DeleteView):
-    pass
+class DeleteAccount(AccountBaseView, SuccessMessageMixin, DeleteView):
+    def get_success_message(self, cleaned_data):
+        return f'{self.object.name} was deleted'
 
 
 def index(request):
