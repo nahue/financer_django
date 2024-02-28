@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.views.generic import CreateView, ListView, DeleteView, DetailView, UpdateView, View
 from django.contrib.messages.views import SuccessMessageMixin
 from django import forms
-from .models import Account
+from .models import Account, Transaction
 from django.urls import reverse_lazy
 
 class HtmxView(View):
@@ -37,6 +37,23 @@ class DeleteAccount(AccountBaseView, SuccessMessageMixin, DeleteView):
     def get_success_message(self, cleaned_data):
         return f'{self.object.name} was deleted'
 
+class TransactionBaseView(HtmxView):
+    model = Transaction
+    fields = '__all__'
+    success_url = reverse_lazy('core:transaction-list')
+
+class ListTransactions(TransactionBaseView, ListView):
+    pass
+
+class CreateTransaction(TransactionBaseView, SuccessMessageMixin, CreateView):
+    success_message = "%(label)s was created successfully"
+
+class UpdateTransaction(TransactionBaseView, SuccessMessageMixin, UpdateView):
+    success_message = "%(label)s was updated successfully"
+
+class DeleteTransaction(TransactionBaseView, SuccessMessageMixin, DeleteView):
+    def get_success_message(self, cleaned_data):
+        return f'{self.object.label} was deleted'
 
 def index(request):
     if request.htmx:
@@ -50,22 +67,6 @@ def index(request):
         "base_template": base_template,
         "message": message
     })
-
-
-def transacciones(request):
-    if request.htmx:
-        base_template = "_partial.html"
-        message = "Hello from Server + HTMX"
-    else:
-        base_template = "_base.html"
-        message = "Hello from Server"
-
-    print(base_template)
-    return render(request, "core/transacciones.html", {
-        "base_template": base_template,
-        "message": message
-    })
-
 
 def deudas(request):
     if request.htmx:

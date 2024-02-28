@@ -20,13 +20,13 @@
                         class="{% if '/accounts' in request.path %}border-b-2{% endif %} inline-flex items-center border-indigo-500 px-1 pt-1 text-sm font-medium text-gray-900"
                         >Cuentas</a
                     >
-                    <!-- <a
-                        hx-get="/transacciones"
-                        href="/transacciones"
-                        class="{% if request.path == '/transacciones' %}border-b-2{% endif %} inline-flex items-center border-indigo-500 px-1 pt-1 text-sm font-medium text-gray-900"
+                    <a
+                        hx-get="/transactions"
+                        href="/transactions"
+                        class="{% if request.path == '/transactions' %}border-b-2{% endif %} inline-flex items-center border-indigo-500 px-1 pt-1 text-sm font-medium text-gray-900"
                         >Transacciones</a
                     >
-                    <a
+                    <!--<a
                         hx-get="/deudas"
                         href="/deudas"
                         class="{% if request.path == '/deudas' %}border-b-2{% endif %} inline-flex items-center border-indigo-500 px-1 pt-1 text-sm font-medium text-gray-900"
