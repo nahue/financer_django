@@ -1,6 +1,7 @@
 {% extends base_template %} {% block content %}
 <div id="main" class="min-h-full">
     {% include "partials/navbar.html" %}
+    {% include "partials/messages.html" %}
 
     <div class="py-10">
         <header>
@@ -59,17 +60,28 @@
                         <td
                             class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0"
                         >
-                            <a
-                                hx-get="/accounts/{{account.id}}/edit"
-                                href="/accounts/{{account.id}}/edit"
-                                hx-target="#main"
-                                hx-swap="outerHTML"
-                                hx-push-url="true"
-                                class="text-indigo-600 hover:text-indigo-900"
-                                >Edit<span class="sr-only"
-                                    >, Lindsay Walton</span
-                                ></a
-                            >
+                            <div class="inline-flex gap-2">
+                                <button
+                                    class="text-red-600"
+                                    hx-target="#main"
+                                    hx-swap="outerHTML"
+                                    hx-post="/accounts/{{account.id}}/delete"
+                                    hx-confirm="Are you sure you wish to delete your account?"
+                                >
+                                    Delete
+                                </button>
+                                <a
+                                    hx-get="/accounts/{{account.id}}/edit"
+                                    href="/accounts/{{account.id}}/edit"
+                                    hx-target="#main"
+                                    hx-swap="outerHTML"
+                                    hx-push-url="true"
+                                    class="text-indigo-600 hover:text-indigo-900"
+                                    >Edit<span class="sr-only"
+                                        >, {{account.name}}</span
+                                    ></a
+                                >
+                            </div>
                         </td>
                     </tr>
                     {% endfor %}

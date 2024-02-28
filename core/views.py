@@ -1,13 +1,13 @@
-from django.shortcuts import render, reverse
-from django.views.generic import CreateView, ListView, DetailView, UpdateView, View
+from django.shortcuts import render
+from django.views.generic import CreateView, ListView, DeleteView, DetailView, UpdateView, View
 from django.contrib.messages.views import SuccessMessageMixin
 from django import forms
 from .models import Account
+from django.urls import reverse_lazy
 
-
-class HtmxMixin(View):
+class HtmxView(View):
     def get_context_data(self, **kwargs):
-        ctx = super(HtmxMixin, self).get_context_data(**kwargs)
+        ctx = super(HtmxView, self).get_context_data(**kwargs)
         if self.request.htmx:
             base_template = "_partial.html"
             message = "Hello from Server + HTMX"
@@ -18,26 +18,23 @@ class HtmxMixin(View):
         ctx["message"] = message
         return ctx
 
-
-class ListAccounts(HtmxMixin, ListView):
+class AccountBaseView(HtmxView):
     model = Account
+    fields = '__all__'
+    success_url = reverse_lazy('core:account-list')
 
 
-class CreateAccount(HtmxMixin, SuccessMessageMixin, CreateView):
-    model = Account
-    form = Account
+class ListAccounts(AccountBaseView, ListView):
+    pass
 
-    fields = "__all__"
-    success_url = "/accounts"
-    success_message = 'Cuenta creada correctamente'
+class CreateAccount(AccountBaseView, SuccessMessageMixin, CreateView):
+    success_message = "%(name)s was created successfully"
 
+class UpdateAccount(AccountBaseView, SuccessMessageMixin, UpdateView):
+    success_message = "%(name)s was updated successfully"
 
-class UpdateAccount(HtmxMixin, UpdateView):
-    model = Account
-    form = Account
-
-    fields = "__all__"
-    success_url = "/accounts"
+class DeleteAccount(AccountBaseView, DeleteView):
+    pass
 
 
 def index(request):
@@ -48,7 +45,6 @@ def index(request):
         base_template = "_base.html"
         message = "Hello from Server"
 
-    print(base_template)
     return render(request, "core/index.html", {
         "base_template": base_template,
         "message": message
